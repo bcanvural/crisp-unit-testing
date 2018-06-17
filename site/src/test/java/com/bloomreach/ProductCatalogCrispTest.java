@@ -3,19 +3,15 @@ package com.bloomreach;
 import java.io.IOException;
 import java.net.URL;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.onehippo.cms7.crisp.api.resource.Resource;
-import org.onehippo.cms7.crisp.core.resource.jackson.SimpleJacksonRestTemplateResourceResolver;
+import org.onehippo.cms7.crisp.core.resource.jdom.SimpleJdomRestTemplateResourceResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -25,35 +21,18 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = SimpleCrispTest.TestConfiguration.class)
-public class SimpleCrispTest extends AbstractCrispTest {
-
-    @Configuration
-    @ImportResource("classpath:crisp-resource-resolvers/example-resource-resolver.xml")
-    public static class TestConfiguration {
-
-    }
+@ContextConfiguration(classes = ProductCatalogCrispTest.TestConfiguration.class)
+public class ProductCatalogCrispTest extends AbstractCrispTest {
 
     private static final MockWebServer MOCK_WEB_SERVER = new MockWebServer();
     private String BASE_URL;
-    private static final String SERVICE_PATH = "/people";
-    private static final String SERVICE_RESOURCE_PATH = "mock-responses/people.json";
+    private static final String SERVICE_PATH = "/products";
+    private static final String SERVICE_RESOURCE_PATH = "mock-responses/products.xml";
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        MOCK_WEB_SERVER.setDispatcher(new LocalResourceDispatcher());
+        MOCK_WEB_SERVER.setDispatcher(new ProductCatalogCrispTest.LocalResourceDispatcher());
         MOCK_WEB_SERVER.start();
-    }
-
-    @After
-    public void tearDown() {
-
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        MOCK_WEB_SERVER.shutdown();
     }
 
     @Before
@@ -61,9 +40,16 @@ public class SimpleCrispTest extends AbstractCrispTest {
         BASE_URL = "http://localhost:" + MOCK_WEB_SERVER.getPort();
     }
 
+
+    @Configuration
+    @ImportResource("classpath:crisp-resource-resolvers/demo-product-catalogs.xml")
+    public static class TestConfiguration {
+
+    }
+
     @Test
-    public void peopleTest() {
-        SimpleJacksonRestTemplateResourceResolver resourceResolver = applicationContext.getBean(SimpleJacksonRestTemplateResourceResolver.class);
+    public void test() {
+        SimpleJdomRestTemplateResourceResolver resourceResolver = applicationContext.getBean(SimpleJdomRestTemplateResourceResolver.class);
         resourceResolver.setBaseUri(BASE_URL);
         Resource resources = resourceResolver.findResources(SERVICE_PATH);
         Assert.assertNotNull(resources);
@@ -77,7 +63,8 @@ public class SimpleCrispTest extends AbstractCrispTest {
             if (SERVICE_PATH.equalsIgnoreCase(request.getPath())) {
                 URL locationsResource = Resources.getResource(SERVICE_RESOURCE_PATH);
                 try {
-                    return new MockResponse().setBody(Resources.toString(locationsResource, Charsets.UTF_8));
+                    MockResponse mockResponse = new MockResponse();
+                    return mockResponse.setBody(Resources.toString(locationsResource, Charsets.UTF_8));
                 } catch (IOException e) {
                     throw new InterruptedException(e.getMessage());
                 }

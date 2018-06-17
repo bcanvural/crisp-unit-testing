@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+  <bean parent="abstractCrispSimpleRestTemplateResourceResolver"
+        class="org.onehippo.cms7.crisp.core.resource.jdom.SimpleJdomRestTemplateResourceResolver">
+    <property name="cacheEnabled" value="true" />
+    <property name="baseUri" value="http://localhost:8080/example-commerce/api/v1" />
+    <property name="jaxbPackagesToScan">
+      <list>
+        <value>org.onehippo.cms7.crisp.demo.model</value>
+      </list>
+    </property>
+    <property name="restTemplate">
+      <bean class="org.springframework.web.client.RestTemplate">
+        <property name="requestFactory" ref="org.springframework.http.client.ClientHttpRequestFactory" />
+      </bean>
+    </property>
+    <property name="resourceLinkResolver">
+      <bean class="org.onehippo.cms7.crisp.core.resource.FreemarkerTemplateResourceLinkResolver">
+        <property name="templateSource">
+          <value>http://www.example.com/products/${(preview == "true")?then("staging", "current")}/sku/${resource.valueMap['sku'].defaultValue!"unknown"}/overview.html</value>
+        </property>
+      </bean>
+    </property>
+    <property name="resourceDataCache">
+      <bean class="org.onehippo.cms7.crisp.core.resource.SpringResourceDataCache">
+        <constructor-arg>
+          <bean class="org.springframework.cache.ehcache.EhCacheCache">
+            <constructor-arg>
+              <bean parent="abstractCrispResourceEhCache">
+                <property name="cacheName" value="demoProductCatalogsXmlCache" />
+                <property name="maxEntriesLocalHeap" value="1000" />
+                <property name="maxEntriesLocalDisk" value="0" />
+                <property name="timeToLiveSeconds" value="60" />
+                <property name="timeToIdleSeconds" value="60" />
+              </bean>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
+
+</beans>

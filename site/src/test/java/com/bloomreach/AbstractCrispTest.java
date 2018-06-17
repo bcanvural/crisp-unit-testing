@@ -24,7 +24,7 @@ public abstract class AbstractCrispTest {
 
     @Configuration
     @ComponentScan(basePackageClasses = AppConfig.class)
-    @ImportResource({"classpath:crisp-spring-assembly/*.xml", "classpath:crisp-resource-resolvers/*.xml"})
+    @ImportResource("classpath:crisp-spring-assembly/*.xml")
     public static class TestConfiguration {
 
         @Bean("resourceResolverProvider")
