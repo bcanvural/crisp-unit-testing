@@ -22,22 +22,20 @@
     DO NOT remove these tags but instead fill them in appropriately as needed, 
     UNLESS the inherited values are valid for your project.
   -->
-  <url/>
-  <inceptionYear/>
-  <organization/>
+  <organization />
   <licenses>
-    <license/>
+    <license />
   </licenses>
   <mailingLists>
-    <mailingList/>
+    <mailingList />
   </mailingLists>
   <developers>
-    <developer/>
+    <developer />
   </developers>
   <contributors>
-    <contributor/>
+    <contributor />
   </contributors>
-  <issueManagement/>
+  <issueManagement />
   <!--
   <scm>
     <connection/>
@@ -45,7 +43,7 @@
     <url/>
   </scm>
   -->
-  <ciManagement/>
+  <ciManagement />
   <distributionManagement>
     <repository>
       <id>-</id>
@@ -151,6 +149,15 @@
     </dependencies>
   </dependencyManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-addon-crisp-api</artifactId>
+      <version>${hippo.addon-crisp.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <defaultGoal>package</defaultGoal>
     <pluginManagement>
@@ -175,7 +182,7 @@
                     <versionRange>[0.0,)</versionRange>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -222,10 +229,6 @@
 
     <profile>
       <id>cargo.run</id>
-      <properties>
-        <!--Already defined in hippo-cms-project POM. Override here for project, if necessary-->
-        <!--<repo.bootstrap>true</repo.bootstrap>-->
-      </properties>
       <build>
         <plugins>
           <plugin>
@@ -282,6 +285,13 @@
                   <project.basedir>${project.basedir}</project.basedir>
                   <send.usage.statistics.to.hippo>true</send.usage.statistics.to.hippo>
                 </systemProperties>
+                <dependencies>
+                  <dependency>
+                    <groupId>org.onehippo.cms7</groupId>
+                    <artifactId>hippo-addon-crisp-api</artifactId>
+                    <classpath>shared</classpath>
+                  </dependency>
+                </dependencies>
               </container>
             </configuration>
           </plugin>
