@@ -1,0 +1,7 @@
+group: 
+  name: crispunit
+  after: hippo-cms
+project: crispunit
+module: 
+  name: crispunit-repository-data-development
+  after: crispunit-repository-data-application
