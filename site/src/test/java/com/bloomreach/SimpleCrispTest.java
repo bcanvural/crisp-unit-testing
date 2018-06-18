@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onehippo.cms7.crisp.api.resource.Resource;
 import org.onehippo.cms7.crisp.core.resource.jackson.SimpleJacksonRestTemplateResourceResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.base.Charsets;
@@ -30,6 +32,10 @@ public class SimpleCrispTest extends AbstractCrispTest {
     private static final String SERVICE_RESOURCE_PATH = "mock-responses/products.json";
     private static final String RESOURCE_RESOLVER_NAME = "simpleResourceResolver";
 
+    @Autowired
+    @Qualifier(RESOURCE_RESOLVER_NAME)
+    SimpleJacksonRestTemplateResourceResolver resourceResolver;
+
     @BeforeClass
     public static void setUpClass() throws Exception {
         MOCK_WEB_SERVER.setDispatcher(new LocalResourceDispatcher());
@@ -48,7 +54,6 @@ public class SimpleCrispTest extends AbstractCrispTest {
 
     @Test
     public void productsTest() {
-        SimpleJacksonRestTemplateResourceResolver resourceResolver = applicationContext.getBean(RESOURCE_RESOLVER_NAME, SimpleJacksonRestTemplateResourceResolver.class);
         resourceResolver.setBaseUri(BASE_URL);
         Resource resources = resourceResolver.findResources(SERVICE_PATH);
         Assert.assertNotNull(resources);

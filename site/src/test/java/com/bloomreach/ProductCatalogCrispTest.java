@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onehippo.cms7.crisp.api.resource.Resource;
 import org.onehippo.cms7.crisp.core.resource.jdom.SimpleJdomRestTemplateResourceResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -37,10 +39,13 @@ public class ProductCatalogCrispTest extends AbstractCrispTest {
         BASE_URL = "http://localhost:" + MOCK_WEB_SERVER.getPort();
     }
 
+    @Autowired
+    @Qualifier(RESOURCE_RESOLVER_NAME)
+    SimpleJdomRestTemplateResourceResolver resourceResolver;
+
 
     @Test
     public void test() {
-        SimpleJdomRestTemplateResourceResolver resourceResolver = applicationContext.getBean(RESOURCE_RESOLVER_NAME, SimpleJdomRestTemplateResourceResolver.class);
         resourceResolver.setBaseUri(BASE_URL);
         Resource resources = resourceResolver.findResources(SERVICE_PATH);
         Assert.assertNotNull(resources);

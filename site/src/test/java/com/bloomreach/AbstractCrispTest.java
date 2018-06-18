@@ -3,9 +3,7 @@ package com.bloomreach;
 import org.junit.runner.RunWith;
 import org.onehippo.cms7.crisp.api.resource.ResourceResolverProvider;
 import org.onehippo.cms7.crisp.core.resource.MapResourceResolverProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = AbstractCrispTest.TestConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public abstract class AbstractCrispTest {
-
-    @Autowired
-    ApplicationContext applicationContext;
 
     @Configuration
     @ComponentScan(basePackageClasses = AppConfig.class)
