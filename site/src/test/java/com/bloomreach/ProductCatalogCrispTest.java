@@ -57,10 +57,10 @@ public class ProductCatalogCrispTest extends AbstractCrispTest {
         @Override
         public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
             if (SERVICE_PATH.equalsIgnoreCase(request.getPath())) {
-                URL locationsResource = Resources.getResource(SERVICE_RESOURCE_PATH);
+                URL productsResource = Resources.getResource(SERVICE_RESOURCE_PATH);
                 try {
                     MockResponse mockResponse = new MockResponse();
-                    return mockResponse.setBody(Resources.toString(locationsResource, Charsets.UTF_8));
+                    return mockResponse.setBody(Resources.toString(productsResource, Charsets.UTF_8));
                 } catch (IOException e) {
                     throw new InterruptedException(e.getMessage());
                 }
