@@ -10,7 +10,7 @@
 /hippo:configuration/hippo:modules/crispregistry/hippo:moduleconfig/crisp:resourceresolvercontainer/<your_resource_resolver_name>/@crisp:beandefinition
 to an xml file at src/main/test/resources/crisp-resource-resolvers/<your_bean_definition_in_console>.xml
 
-* Give your resource resolver a unique id so you can fetch it with @Qualifier annotation. Otherwise Spring does not know which bean to autowire since there are multiple of same type.
+* If you have more than one resource resolver xml definitions, give each of them a unique id so you can fetch it with @Qualifier annotation. Otherwise Spring does not know which bean to autowire since there are multiple of same type.
 
 * Then you can fetch your resource resolver beans like:
 ```java
