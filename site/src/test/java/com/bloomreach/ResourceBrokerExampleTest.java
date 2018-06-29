@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.Collections;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -57,8 +57,8 @@ public class ResourceBrokerExampleTest extends AbstractCrispTest {
         HippoServiceRegistry.registerService(cacheableResourceServiceBroker, ResourceServiceBroker.class);
     }
 
-    @PreDestroy
-    public void preDestroy() {
+    @After
+    public void tearDown() {
         HippoServiceRegistry.unregisterService(cacheableResourceServiceBroker, ResourceServiceBroker.class);
     }
 
