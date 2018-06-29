@@ -3,6 +3,9 @@
 * Tests are at site/src/test
 * AbstractCrispTest class is the base testing class
 
+### Testing using ResourceBroker and HippoServiceRegistry
+* See com.bloomreach.ResourceBrokerExampleTest
+
 ### Testing the resource resolver defined in your Hippo project:
 
 * See com.bloomreach.MarketoCrispTest for a minimal setup
